@@ -52,8 +52,8 @@ while True:
         if version_init_num == 3:
             msg = input("");
         elif version_init_num == 2:
-            #msg = raw_input("");
-            msg = input("");
+            msg = raw_input("");
+            #msg = input("");
 
         if not msg:
             break
