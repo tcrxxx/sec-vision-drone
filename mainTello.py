@@ -80,6 +80,8 @@ while True:
             print("w:" + str(w))
             print("h:" + str(h))
 
+            # PRE PROCESSING ?
+
             # MODEL: GET EMBEDDINGS
             face_extracted = extract_face(img, face['box'])
             #face_extracted = face_extracted.astype("float32")/255
