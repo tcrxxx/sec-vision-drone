@@ -1,9 +1,8 @@
-from faces import utilsFaces
-from faces.utilsFaces import *
+from faces.utilsFaces import extract_face, get_embedding
 from tello.telloUtils import *
 import cv2
-import time
 from mtcnn.mtcnn import MTCNN
+from keras_facenet import FaceNet
 
 #########################################################
 # DEFINITIONS
@@ -14,6 +13,9 @@ NAME_SYS = "SECURITY VISION DRONE"
 
 # Models
 detectorMTCNN = MTCNN()  # FIND FACES IN IMAGE
+#facenet = load_model("resources/models/facenet_keras.h5")  # FACES TO EMBEDDINGS
+facenet = FaceNet()
+#model = load_model("resources/models/faces.h5")  # CLASSIFIER KNOWN OR UNKNOWN
 
 # Tello
 w_img, h_img = 360, 240
@@ -58,13 +60,15 @@ while True:
     img = myDrone.get_frame_read().frame
     img = cv2.resize(img, (w_img, h_img))
 
-    # DETECT FACES - MTCNN
+    # MODEL: DETECT FACES - MTCNN
     print("Find faces (MTCNN)...")
     faces = detectorMTCNN.detect_faces(img)
     print("Find " + str(len(faces)) + " faces...")
+
     for face in faces:
-        print("Face identified:" + str(face))
-        print("Face confidence:" + str(face['confidence'] * 100))
+        #print("Face identified:" + str(face))
+        #print("Face confidence:" + str(face['confidence'] * 100))
+
         # Capture frame only confidence > 98
         if (face['confidence'] * 100) >= 98:
             x1, y1, w, h = face['box']
@@ -76,6 +80,15 @@ while True:
             print("w:" + str(w))
             print("h:" + str(h))
 
+            # MODEL: GET EMBEDDINGS
+            face_extracted = extract_face(img, face['box'])
+            #face_extracted = face_extracted.astype("float32")/255
+            embeddings = get_embedding(facenet, face_extracted)
+            print("Embedding: {}".format(str(embeddings)))
+
+            # MODEL: RECOGNIZE FACE
+
+            # DEFINE USER BY FACE RECOGNIZE
             user = str(classe_label[init_classe])  # TODO: Change to classe returned by model
             print("User finded:" + user)
 
