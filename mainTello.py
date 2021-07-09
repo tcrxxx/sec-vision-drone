@@ -13,8 +13,8 @@ NAME_SYS = "SECURITY VISION DRONE"
 
 # Models
 detectorMTCNN = MTCNN()  # FIND FACES IN IMAGE
-#facenet = load_model("resources/models/facenet_keras.h5")  # FACES TO EMBEDDINGS
-facenet = FaceNet()
+#facenet = load_model("resources/models/facenet_keras.h5")
+facenet = FaceNet() # FACES TO EMBEDDINGS
 #model = load_model("resources/models/faces.h5")  # CLASSIFIER KNOWN OR UNKNOWN
 
 # Tello
