@@ -88,6 +88,7 @@ def load_photos(root_dir, target_dir):
 
 
 def flip_and_save(image_ori,filename_target):
+    # DATA Augmentation => Flip Images
     print("Flip image:" + filename_target)
     image_fliped = image_ori.transpose(Image.FLIP_LEFT_RIGHT)
     image_fliped.save(filename_target, 'JPEG', quality=100, optimize=True, progressive=True)
