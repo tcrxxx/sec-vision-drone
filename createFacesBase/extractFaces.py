@@ -11,6 +11,8 @@ detector = MTCNN()
 # Use: linux,mac,windows="\\"
 FILEPATH_DIVISOR = '/'
 
+# Sample final dir:  ./photos/myName
+# Sample final dir:  ./faces/myName
 FACES_DIR = "./faces/"
 PHOTOS_DIR = "./fotos/"
 
@@ -29,7 +31,8 @@ def summary_files(path):
 
     print('Total number of files', totalFiles)
     print('Total Number of directories', totalDir)
-    #print('Total:', (totalDir + totalFiles))
+    # print('Total:', (totalDir + totalFiles))
+
 
 def extract_faces(filename, size=(160, 160)):
     print("############################################")
@@ -73,10 +76,21 @@ def load_photos(root_dir, target_dir):
     for filename in listdir(root_dir):
         path = root_dir + filename
         path_target = target_dir + filename
+        path_target_fliped = target_dir + "fliped-" + filename
 
-        face = extract_faces(path)
-        if face is not None:
-            face.save(path_target, 'JPEG', quality=100, optimize=True, progressive=True)
+        try:
+            face = extract_faces(path)
+            if face is not None:
+                face.save(path_target, 'JPEG', quality=100, optimize=True, progressive=True)
+                flip_and_save(face, path_target_fliped)
+        except Exception as e:
+            print("The error {} was ocurred to process img:".format(e, path))
+
+
+def flip_and_save(image_ori,filename_target):
+    print("Flip image:" + filename_target)
+    image_fliped = image_ori.transpose(Image.FLIP_LEFT_RIGHT)
+    image_fliped.save(filename_target, 'JPEG', quality=100, optimize=True, progressive=True)
 
 
 def load_dir_and_extract_faces(src_dir, target_dir):
