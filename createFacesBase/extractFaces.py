@@ -13,8 +13,11 @@ FILEPATH_DIVISOR = '/'
 
 # Sample final dir:  ./photos/myName
 # Sample final dir:  ./faces/myName
-FACES_DIR = "./faces/"
-PHOTOS_DIR = "./fotos/"
+#FACES_DIR = "train/faces/"
+#PHOTOS_DIR = "train/photos/"
+FACES_DIR = "validation/faces/"
+PHOTOS_DIR = "validation/photos/"
+
 
 
 def summary_files(path):

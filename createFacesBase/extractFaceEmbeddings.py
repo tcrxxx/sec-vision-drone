@@ -3,11 +3,13 @@ from os import listdir
 from os.path import isdir
 from numpy import asarray, expand_dims
 import numpy as np
-from keras_facenet import FaceNet
 import pandas as pd
+#from keras_facenet import FaceNet
+from tensorflow.keras.models import load_model
 
 
-facenet = FaceNet()
+#model_fn = FaceNet()
+model_fn = load_model("./../resources/models/facenet_keras.h5")
 
 
 def load_face(filename):
@@ -49,14 +51,16 @@ def load_photos(src_dir):
     return asarray(x), asarray(y)
 
 
-def get_embedding(facenet, face_pixels):
+def get_embedding(fn_model_p, face_pixels):
     #Padronizacao das faces
     face_pixels = face_pixels.astype('float32')
     mean, std = face_pixels.mean(), face_pixels.std()
     face_pixels = (face_pixels - mean) / std
     samples = np.expand_dims(face_pixels, axis=0)
     #yhat = facenet.predict(samples)
-    yhat = facenet.embeddings(samples)
+    #detections = facenet.extract(samples, threshold=0.95)
+    #yhat = fn_model_p.embeddings(samples)
+    yhat = fn_model_p.predict(samples)
     return yhat[0]
 
 
@@ -65,14 +69,15 @@ def get_embedding(facenet, face_pixels):
 ####################################################
 
 
-trainX, trainY = load_photos("./faces/")
+trainX, trainY = load_photos("train/faces/")
+#trainX, trainY = load_photos("validation/faces/")
 
 print("trainX.shape:" + str(trainX.shape))
 print("trainY.shape:" + str(trainY.shape))
 
 newTrainX = list()
 for face_pixels in trainX:
-    embedding = get_embedding(facenet, face_pixels)
+    embedding = get_embedding(model_fn, face_pixels)
     newTrainX.append(embedding)
 
 newTrainX = asarray(newTrainX)
@@ -84,4 +89,5 @@ df['target'] = trainY
 
 print(df)
 
-df.to_csv('../resources/models/faces.csv')
+df.to_csv('../resources/embeddings/faces.csv')
+#df.to_csv('../resources/embeddings/faces_validation.csv')
