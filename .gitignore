@@ -3,5 +3,6 @@
 
 *.pyc
 *.jpg
+*.png
 *.csv
 *.h5
