@@ -2,7 +2,7 @@ from faces.utilsFaces import extract_face, get_embedding
 from tello.telloUtils import *
 import cv2
 from mtcnn.mtcnn import MTCNN
-from keras_facenet import FaceNet
+#from keras_facenet import FaceNet
 
 #########################################################
 # DEFINITIONS

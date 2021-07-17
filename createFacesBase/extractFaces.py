@@ -13,10 +13,10 @@ FILEPATH_DIVISOR = '/'
 
 # Sample final dir:  ./photos/myName
 # Sample final dir:  ./faces/myName
-#FACES_DIR = "train/faces/"
-#PHOTOS_DIR = "train/photos/"
-FACES_DIR = "validation/faces/"
-PHOTOS_DIR = "validation/photos/"
+FACES_DIR = "../resources/datasets/train/faces/"
+PHOTOS_DIR = "../resources/datasets/train/photos/"
+#FACES_DIR = "validation/faces/"
+#PHOTOS_DIR = "validation/photos/"
 
 
 

@@ -57,7 +57,8 @@ print(trainY)
 ##########################################################
 # VALIDATION
 ##########################################################
-df_val = pd.read_csv("../resources/embeddings/faces_validation.csv")
+#df_val = pd.read_csv("../resources/embeddings/faces_validation.csv")
+df_val = pd.read_csv("../resources/embeddings/faces.csv")
 print(df_val.head())
 
 valX = np.array(df_val.drop(df_val.columns[df_val.columns.str.contains('unnamed', case = False) | df_val.columns.str.contains('target', case = False)], axis = 1))
@@ -74,6 +75,18 @@ print(valY)
 ##########################################################
 # Evaluate Models
 ##########################################################
+
+# SVM #############################################
+from sklearn import svm
+svm = svm.SVC()
+svm.fit(trainX, trainY)
+yhat_train = svm.predict(trainX)
+yhat_val = svm.predict(valX)
+print_confusion_matrix("SVM", valY, yhat_val)
+from joblib import dump, load
+dump(svm, '../resources/models/faces_svm.h5')
+
+# KNN #############################################
 from sklearn.neighbors import KNeighborsClassifier
 knn = KNeighborsClassifier(n_neighbors=2)
 
@@ -84,3 +97,37 @@ yhat_val = knn.predict(valX)
 
 print(yhat_val)
 print_confusion_matrix("KNN", valY, yhat_val)
+dump(knn, '../resources/models/faces_knn.h5')
+
+# PERCEPTRON #############################################
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras import models
+from tensorflow.keras import layers
+
+# CONVERT LABELS TO CATEGORICAL
+trainY = to_categorical(trainY)
+valY = to_categorical(valY)
+
+percep_model = models.Sequential()
+percep_model.add(layers.Dense(64, activation="relu", input_shape=(128,)))
+percep_model.add(layers.Dropout(0.5))
+percep_model.add(layers.Dense(2, activation="softmax"))
+
+percep_model.summary()
+percep_model.compile(optimizer="adam", loss="categorical_crossentropy",
+              metrics=['accuracy'])
+percep_model.fit(trainX, trainY, epochs=100, batch_size=8)
+
+yhat_train = percep_model.predict(trainX)
+yhat_val = percep_model.predict(valX)
+
+# CONVERT CATEGORICAL TO LABELS
+yhat_val = np.argmax(yhat_val, axis=1)
+valY = np.argmax(valY, axis=1)
+
+print(yhat_val)
+print_confusion_matrix("PERCEPTRON", valY, yhat_val)
+percep_model.save("../resources/models/faces_percep.h5")
+
+
+

@@ -69,7 +69,7 @@ def get_embedding(fn_model_p, face_pixels):
 ####################################################
 
 
-trainX, trainY = load_photos("train/faces/")
+trainX, trainY = load_photos("../resources/datasets/train/faces/")
 #trainX, trainY = load_photos("validation/faces/")
 
 print("trainX.shape:" + str(trainX.shape))
