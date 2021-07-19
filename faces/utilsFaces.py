@@ -13,11 +13,10 @@ def extract_face(image, box, required_size=(160, 160)):
 
 
 def get_embedding(facenet, face_pixels):
-    #Padronizacao das faces
+    #Standarization faces
     face_pixels = face_pixels.astype('float32')
     mean, std = face_pixels.mean(), face_pixels.std()
     face_pixels = (face_pixels - mean) / std
     samples = np.expand_dims(face_pixels, axis=0)
-    #yhat = facenet.predict(samples)
-    yhat = facenet.embeddings(samples)
+    yhat = facenet.predict(samples)
     return yhat[0]
