@@ -1,7 +1,7 @@
 import numpy as np
 
-from faces.utilsFaces import extract_face, get_embedding
-from tello.telloUtils import *
+from utils.utilsFaces import extract_face, get_embedding
+from utils.telloUtils import *
 import cv2
 from mtcnn.mtcnn import MTCNN
 from tensorflow.keras.models import load_model
