@@ -91,17 +91,25 @@ while True:
 
             # MODEL: RECOGNIZE FAC
             tensor = np.expand_dims(embeddings, axis=0)
+
+            # Normalize
+            from sklearn.preprocessing import Normalizer
+            norm = Normalizer(norm="l2")
+            sample = norm.transform(tensor)
+
             predicted_class = model.predict_classes(tensor)[0]
 
             prob = model.predict_proba(tensor)
             prob = prob[0][predicted_class]*100
 
-            # DEFINE USER BY FACE RECOGNIZE
-            user = str(class_label[predicted_class])
-            print("User finded:" + user)
+            # Recognize only prob return greater than 98
+            if prob >= 98:
+                # DEFINE USER BY FACE RECOGNIZE
+                user = str(class_label[predicted_class])
+                print("User finded:" + user)
 
-            # DRAW BOUNDING BOX
-            drawBoundingBox(img, user, predicted_class, x1, y1, x2, y2)
+                # DRAW BOUNDING BOX
+                drawBoundingBox(img, user, predicted_class, x1, y1, x2, y2)
 
     cv2.imshow(NAME_SYS, img)
 
