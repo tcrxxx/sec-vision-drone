@@ -167,7 +167,7 @@ percep_model.add(layers.Dropout(0.5))
 percep_model.add(layers.Dense(2, activation="softmax"))
 
 percep_model.summary()
-percep_model.compile(optimizer="adam", loss="categorical_crossentropy",
+percep_model.compile(optimizer="adam", loss="categorical_crossentropy", #categorical_crossentropy or binary_crossentropy ?
               metrics=['accuracy'])
 
 p_epochs = 40
@@ -189,9 +189,13 @@ yhat_val = np.argmax(yhat_val, axis=1)
 valY = np.argmax(valY, axis=1)
 
 print(yhat_val)
-print_confusion_matrix("PERCEPTRON", valY, yhat_val)
-print_charts("PERCEPTRON", history_model)
-percep_model.save("../resources/models/faces_percep.h5")
+
+from datetime import datetime
+strdatetime = datetime.now().strftime("%m-%d-%Y-%H-%M-%S").upper()
+
+print_confusion_matrix("PERCEPTRON_{}".format(strdatetime), valY, yhat_val)
+print_charts("PERCEPTRON_{}".format(strdatetime), history_model)
+percep_model.save("../resources/models/faces_percep_{}.h5".format(strdatetime))
 
 
 
