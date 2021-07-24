@@ -114,8 +114,10 @@ while True:
     cv2.imshow(NAME_SYS, img)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
+        print("Command quit called:")
         cv2.destroyAllWindows()
         if startCounter == 0:
+            print("Land drone!")
             myDrone.land()
         break
 
