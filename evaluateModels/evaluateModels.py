@@ -6,6 +6,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import confusion_matrix
 from mlxtend.plotting import plot_confusion_matrix
 from joblib import dump, load
+from datetime import datetime
 
 
 def print_charts(model_name, history):
@@ -128,29 +129,35 @@ print(valY)
 # Evaluate Models
 ##########################################################
 
-# SVM #############################################
-#from sklearn import svm
-#svm = svm.SVC()
-#svm.fit(trainX, trainY)
-#yhat_train = svm.predict(trainX)
-#yhat_val = svm.predict(valX)
-#print_confusion_matrix("SVM", valY, yhat_val)
-#dump(svm, '../resources/models/faces_svm.h5')
+#######################################################################################################################################
+# SVM                                                                                                                                 #
+#######################################################################################################################################
+from sklearn import svm
+svm = svm.SVC()
+svm.fit(trainX, trainY)
+yhat_train = svm.predict(trainX)
+yhat_val = svm.predict(valX)
+print_confusion_matrix("SVM", valY, yhat_val)
+dump(svm, '../resources/models/faces_svm.h5')
 
-# KNN #############################################
-#from sklearn.neighbors import KNeighborsClassifier
-#knn = KNeighborsClassifier(n_neighbors=2)
-#
-#knn.fit(trainX, trainY)
-#
-#yhat_train = knn.predict(trainX)
-#yhat_val = knn.predict(valX)
-#
-#print(yhat_val)
-#print_confusion_matrix("KNN", valY, yhat_val)
-#dump(knn, '../resources/models/faces_knn.h5')
+#######################################################################################################################################
+# KNN                                                                                                                                 #
+#######################################################################################################################################
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier(n_neighbors=2)
 
-# PERCEPTRON #############################################
+knn.fit(trainX, trainY)
+
+yhat_train = knn.predict(trainX)
+yhat_val = knn.predict(valX)
+
+print(yhat_val)
+print_confusion_matrix("KNN", valY, yhat_val)
+dump(knn, '../resources/models/faces_knn.h5')
+
+#######################################################################################################################################
+# PERCEPTRON                                                                                                                          #
+#######################################################################################################################################
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras import models
 from tensorflow.keras import layers
@@ -190,9 +197,7 @@ valY = np.argmax(valY, axis=1)
 
 print(yhat_val)
 
-from datetime import datetime
 strdatetime = datetime.now().strftime("%m-%d-%Y-%H-%M-%S").upper()
-
 print_confusion_matrix("PERCEPTRON_{}".format(strdatetime), valY, yhat_val)
 print_charts("PERCEPTRON_{}".format(strdatetime), history_model)
 percep_model.save("../resources/models/faces_percep_{}.h5".format(strdatetime))
