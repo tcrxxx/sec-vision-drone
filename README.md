@@ -17,10 +17,10 @@ Este projeto é um trabalho de conclusão de curso de pós graduação em Inteli
 Este projeto desenvolve um protótipo para identificação de faces conhecidas/desconhecidas, utilizando stream de vídeo de um drone (DJI Tello).
 
 ## Por que o projeto é útil
-Este projeto é útil para estudo de caso em visão computação e uso de:
+Este projeto é útil para exemplo de codificação em visão computação e uso de:
 - MTCNN: para identificação de faces, 
 - FACENET_KERAS: para extração de embeddings de faces
 - Modelos: KNN, SVM e Redes Neurais (tensorflow.keras)
-- Tello: Para movimento do drone e obteção do vídeo stream
+- Drone DJI Tello: Para movimento do drone e obteção do vídeo stream
 
 ## Como os usuários podem começar a usar o projeto
